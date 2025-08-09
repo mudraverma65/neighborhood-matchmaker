@@ -1,0 +1,7 @@
+flowchart TD
+    A[Frontend - React] -->|API Calls| B[Backend - FastAPI Python]
+    B -->|Query| C[Overpass API / Other Data Source]
+    B -->|Read/Write| D[(MongoDB Database)]
+    C -->|Return GeoJSON/Data| B
+    D -->|Store/Search Data| B
+    B -->|JSON Response| 

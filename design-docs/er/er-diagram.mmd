@@ -1,0 +1,32 @@
+erDiagram
+    USER {
+        string user_id PK
+        string name
+        string email
+        string preferences
+    }
+
+    NEIGHBORHOOD {
+        string neighborhood_id PK
+        string name
+        string city
+        string country
+        float lat
+        float lon
+    }
+
+    CRITERIA {
+        string criteria_id PK
+        string name
+        string type
+    }
+
+    USER ||--o{ SEARCH_HISTORY : "makes"
+    SEARCH_HISTORY {
+        string search_id PK
+        string user_id FK
+        string criteria_id FK
+        date search_date
+    }
+
+    NEIGHBORHOOD ||--o{ CRITERIA : "matches"
