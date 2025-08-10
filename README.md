@@ -17,3 +17,8 @@ This folder contains Mermaid scripts and generated diagrams related to the Neigh
   Entity Relationship (ER) diagram showing the database schema.
 
 ---
+
+### Neighborhood GeoJson Data Reference
+
+- https://donnees.montreal.ca/ 
+- Claude.ai for formatting into .csv

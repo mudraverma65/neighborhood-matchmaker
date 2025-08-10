@@ -6,3 +6,5 @@
 neighborhood-matchmaker-backend/test.py
 
 docs.txt
+
+__pycache__/
