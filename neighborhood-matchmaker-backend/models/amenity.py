@@ -2,7 +2,7 @@ from enum import Enum
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from database import Base
-from .amenity_type import AmenityTypeEnum
+from ..enums.amenity_type import AmenityTypeEnum
 
 class Amenity(Base):
     __tablename__ = "amenities"

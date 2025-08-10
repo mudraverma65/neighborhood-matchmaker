@@ -18,7 +18,8 @@ class Neighborhood(Base):
     city = Column(String, nullable=False)
     coordinates_id = Column(Integer, ForeignKey("coordinates.id"), nullable=False)
     score = Column(Float)
-    avg_price = Column(Integer)
+    avg_price = Column(Integer) ## calculated from neighborhood_rent
 
     coordinates = relationship("Coordinates")
     amenities = relationship("Amenity", secondary=neighborhood_amenities, back_populates="neighborhoods")
+    rents = relationship("N", back_populates="neighborhood", cascade="all, delete")

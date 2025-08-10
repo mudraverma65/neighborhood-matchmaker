@@ -1,9 +1,17 @@
-from database import engine, Base
-import models 
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from routes import amenity
+from database import Base, engine
 
-def create_tables():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
-    print("✅ Tables created successfully.")
+    yield
 
-if __name__ == "__main__":
-    create_tables()
+app = FastAPI(lifespan=lifespan)
+
+app.include_router(amenity.router, prefix="/amenities")
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
