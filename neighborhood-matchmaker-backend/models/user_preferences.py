@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Table, Enum, ARRAY
 from sqlalchemy.orm import relationship
 from database import Base
-from ..enums.amenity_type import AmenityTypeEnum
+from enums.amenity_type import AmenityTypeEnum
 
 user_pref_neighborhood = Table(
     "user_pref_neighborhood",

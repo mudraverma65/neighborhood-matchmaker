@@ -22,4 +22,4 @@ class Neighborhood(Base):
 
     coordinates = relationship("Coordinates")
     amenities = relationship("Amenity", secondary=neighborhood_amenities, back_populates="neighborhoods")
-    rents = relationship("N", back_populates="neighborhood", cascade="all, delete")
+    neighborhood_rents = relationship("NeighborhoodRent", back_populates="neighborhoods", cascade="all, delete")
