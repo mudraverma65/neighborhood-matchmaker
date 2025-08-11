@@ -1,0 +1,101 @@
+/* HotSpot.module.css */
+
+.sticker {
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  animation: pulse 4s ease-in-out infinite;
+  overflow: hidden;
+  border-radius: 25px;
+}
+
+.sticker.hovered {
+  transform: scale(1.15) rotate(-3deg);
+}
+
+/* Shape variations */
+.shapeStar {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  border-radius: 0px;
+}
+
+.shapeCloud {
+  border-radius: 50px;
+}
+
+.shapeThought {
+  border-radius: 50px 50px 50px 5px;
+}
+
+/* Size variations */
+.sizeSmall {
+  width: 140px;
+  height: 120px;
+}
+
+.sizeMedium {
+  width: 180px;
+  height: 160px;
+}
+
+.sizeLarge {
+  width: 220px;
+  height: 190px;
+}
+
+.stickerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 12px;
+  position: relative;
+  z-index: 2;
+  gap: 8px;
+}
+
+.stickerImage {
+  width: 70%;
+  height: 60%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+  border: 2px solid rgba(255,255,255,0.8);
+}
+
+.starImage {
+  clip-path: polygon(50% 10%, 61% 35%, 90% 35%, 68% 57%, 79% 85%, 50% 70%, 21% 85%, 32% 57%, 10% 35%, 39% 35%);
+}
+
+.stickerText {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2C5530;
+  text-align: center;
+  line-height: 1.1;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.9);
+  margin-top: 4px;
+}
+
+.stickerShadow {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 25px;
+  z-index: -1;
+  transform: rotate(3deg);
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
