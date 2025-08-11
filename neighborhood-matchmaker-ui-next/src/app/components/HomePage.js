@@ -3,13 +3,18 @@
 import { useState } from 'react';
 import styles from '../styles/HomePage.module.css';
 import HotSpot from './Hotspot';
+import SearchForm from './SearchForm';
 
 const HomePage = () => {
   const [hoveredSticker, setHoveredSticker] = useState(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // <-- new state
 
   const handleSearchClick = () => {
-    // This will open the form popup later
-    console.log('Opening search form....as..');
+    setIsSearchOpen(true);
+  };
+
+  const handleCloseSearch = () => {
+    setIsSearchOpen(false);
   };
 
   const hotspots = [
@@ -104,6 +109,10 @@ const HomePage = () => {
           <div className={`${styles.decorElement} ${styles.decor2}`}>🏔️</div>
           <div className={`${styles.decorElement} ${styles.decor3}`}>❄️</div>
         </div>
+
+        {isSearchOpen && (
+          <SearchForm isOpen={true} onClose={handleCloseSearch} />
+        )}
       </div>
     </div>
   );

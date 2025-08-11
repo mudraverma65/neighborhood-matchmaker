@@ -104,7 +104,7 @@ class NeighborhoodAmenityService:
         )
         
         if search_dto.preferred_neighborhoods:
-            query = query.filter(Neighborhood.id.in_(search_dto.preferred_neighborhoods))
+            query = query.filter(Neighborhood.name.in_(search_dto.preferred_neighborhoods))
         
         return query.all()
     

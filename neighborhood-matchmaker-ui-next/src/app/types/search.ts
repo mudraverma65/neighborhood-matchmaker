@@ -1,7 +1,7 @@
 import { AmenityTypeEnum, RentTypeEnum } from './enums';
 
 export interface NeighborhoodSearchDTO {
-  preferred_neighborhoods?: number[];
+  preferred_neighborhoods?: string[];
   budget: number;
   city: string;
   max_commute_time?: number;

@@ -17,11 +17,12 @@ export async function fetchAmenities(): Promise<Amenity[]> {
 }
 
 export async function fetchNeighborhoods(): Promise<Neighborhood[]> {
-  const res = await fetch(`${BASE_URL}/neighborhoods`);
+  const res = await fetch('/neighborhoods');
   if (!res.ok) throw new Error("Failed to fetch neighborhoods");
   const data: Neighborhood[] = await res.json();
   return data;
 }
+
 
 export async function searchNeighborhoods(
   searchDto: NeighborhoodSearchDTO
