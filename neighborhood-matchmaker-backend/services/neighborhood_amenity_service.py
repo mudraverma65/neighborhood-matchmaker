@@ -10,6 +10,7 @@ from models.amenity import Amenity
 from enums.amenity_type import AmenityTypeEnum
 import logging
 from dtos.search_result import NeighborhoodSearchResult, SearchResult
+from sqlalchemy import and_
 
 class NeighborhoodAmenityService:
     """Service to handle neighborhood amenity processing"""
@@ -35,13 +36,8 @@ class NeighborhoodAmenityService:
             try:
                 if results: 
                     await asyncio.sleep(1)
-                
-                amenity_counts = await OverpassAPIService.get_amenity_counts(
-                    neighborhood.coordinates.lat,
-                    neighborhood.coordinates.lon,
-                    search_dto.amenities,
-                    radius_meters=1000
-                )
+
+                amenity_counts = await self.get_amenity_counts_with_cache(neighborhood, search_dto.amenities)
 
                 commute_time = self._calculate_commute_time(
                     neighborhood.coordinates.lat,
@@ -54,7 +50,8 @@ class NeighborhoodAmenityService:
                     amenity_counts,
                     search_dto.amenities,
                     commute_time,
-                    search_dto.max_commute_time
+                    search_dto.max_commute_time,
+                    is_preferred=(neighborhood.name in (search_dto.preferred_neighborhoods or []))
                 )
                 
                 # Store amenity data in database
@@ -72,13 +69,6 @@ class NeighborhoodAmenityService:
                         "lon": neighborhood.coordinates.lon
                     }
                 )
-                
-                # result = AmenityCountResult(
-                #     neighborhood_id=neighborhood.id,
-                #     neighborhood_name=neighborhood.name,
-                #     amenity_counts=amenity_counts,
-                #     total_amenities=sum(amenity_counts.values())
-                # )
 
                 results.append(result)
                 
@@ -90,23 +80,20 @@ class NeighborhoodAmenityService:
 
             results.sort(key=lambda x: x.score, reverse=True)
 
+        top_results = results[:10]
+
         return SearchResult(
             neighborhoods=results,
-            total_results=len(results),
+            total_results=len(top_results),
             search_criteria=search_dto.model_dump()
         ).model_dump()
     
     def _get_target_neighborhoods(self, search_dto: NeighborhoodSearchDTO) -> List[Neighborhood]:
         """Get neighborhoods based on search criteria"""
-        
-        query = self.db.query(Neighborhood).join(Coordinates).filter(
+
+        return self.db.query(Neighborhood).join(Coordinates).filter(
             Neighborhood.city == search_dto.city
-        )
-        
-        if search_dto.preferred_neighborhoods:
-            query = query.filter(Neighborhood.name.in_(search_dto.preferred_neighborhoods))
-        
-        return query.all()
+        ).all()
     
     async def _store_amenity_data(self, neighborhood_id: int, amenity_counts: Dict[str, int]):
         """Store or update amenity data in the database"""
@@ -182,25 +169,29 @@ class NeighborhoodAmenityService:
         
         return max(commute_minutes, 5)  # Minimum 5 minutes
     
-    def _calculate_neighborhood_score(self, amenity_counts: Dict[str, int], 
-                                requested_amenities: List[AmenityTypeEnum],
-                                commute_time: Optional[int], 
-                                max_commute_time: Optional[int] = None) -> int:
+    def _calculate_neighborhood_score(
+        self, 
+        amenity_counts: Dict[str, int], 
+        requested_amenities: List[AmenityTypeEnum],
+        commute_time: Optional[int], 
+        max_commute_time: Optional[int] = None,
+        is_preferred: bool = False  # NEW param
+    ) -> int:
         """Calculate neighborhood score out of 100"""
         
         total_score = 0
         max_possible_score = 0
 
         AMENITY_WEIGHTS = {
-            AmenityTypeEnum.GROCERY: 10,      # Essential for daily life
-            AmenityTypeEnum.TRANSIT: 9,       # Critical for mobility
-            AmenityTypeEnum.HOSPITAL: 9,      # Important for health/safety
-            AmenityTypeEnum.RESTAURANT: 8,    # High social and convenience value
-            AmenityTypeEnum.SCHOOL: 7,        # Important for families
-            AmenityTypeEnum.PARK: 7,          # Quality of life and recreation
-            AmenityTypeEnum.CAFE: 6,          # Social spaces and convenience
-            AmenityTypeEnum.GYM: 6,           # Health and fitness
-            AmenityTypeEnum.LIBRARY: 5,       # Educational and community resource
+            AmenityTypeEnum.GROCERY: 10,
+            AmenityTypeEnum.TRANSIT: 9,
+            AmenityTypeEnum.HOSPITAL: 9,
+            AmenityTypeEnum.RESTAURANT: 8,
+            AmenityTypeEnum.SCHOOL: 7,
+            AmenityTypeEnum.PARK: 7,
+            AmenityTypeEnum.CAFE: 6,
+            AmenityTypeEnum.GYM: 6,
+            AmenityTypeEnum.LIBRARY: 5,
         }
         
         # Score based on requested amenities
@@ -209,7 +200,6 @@ class NeighborhoodAmenityService:
             count = amenity_counts.get(amenity_key, 0)
             weight = AMENITY_WEIGHTS.get(amenity_enum, 5)
             
-            # Score calculation based on amenity count
             if count >= 3:
                 amenity_score = weight
             elif count == 2:
@@ -222,9 +212,8 @@ class NeighborhoodAmenityService:
             total_score += amenity_score
             max_possible_score += weight
         
-        # Commute time scoring (only if destination is specified)
+        # Commute time scoring
         if commute_time is not None and max_commute_time is not None:
-            # User specified both destination and max commute time
             if commute_time <= max_commute_time * 0.7:
                 commute_bonus = 10
             elif commute_time <= max_commute_time:
@@ -237,7 +226,6 @@ class NeighborhoodAmenityService:
             total_score += commute_bonus
             max_possible_score += 10
         elif commute_time is not None:
-            # User specified destination but no max commute time
             if commute_time <= 15:
                 commute_bonus = 10
             elif commute_time <= 30:
@@ -249,10 +237,47 @@ class NeighborhoodAmenityService:
             
             total_score += commute_bonus
             max_possible_score += 10
-        # If commute_time is None, we don't add/subtract any commute points
-        # This gives max score potential for amenities only
         
+        # Add preferred neighborhood bonus points (fixed)
+        if is_preferred:
+            total_score += 5
+            max_possible_score += 5
+
         # Convert to percentage (0-100)
         percentage_score = min(100, int((total_score / max_possible_score) * 100)) if max_possible_score > 0 else 0
         
         return max(0, percentage_score)
+
+    async def get_amenity_counts_with_cache(self, neighborhood: Neighborhood, amenity_types: List[AmenityTypeEnum]) -> Dict[str, int]:
+        existing_amenities = self.db.query(Amenity).filter(
+            and_(
+                Amenity.neighborhood_id == neighborhood.id,
+                Amenity.type.in_(amenity_types)
+            )
+        ).all()
+
+        existing_counts = {a.type: a.count for a in existing_amenities}
+
+        if all(amenity in existing_counts for amenity in amenity_types):
+            logging.info(f"Using cached amenity counts for neighborhood {neighborhood.name}")
+            return {amenity.value: existing_counts.get(amenity, 0) for amenity in amenity_types}
+
+        logging.info(f"Fetching amenity counts from Overpass for neighborhood {neighborhood.name}")
+        fetched_counts = await OverpassAPIService.get_amenity_counts(
+            neighborhood.coordinates.lat,
+            neighborhood.coordinates.lon,
+            amenity_types,
+            radius_meters=1000
+        )
+
+        for amenity_enum in amenity_types:
+            count = fetched_counts.get(amenity_enum.value, 0)
+            existing_record = next((a for a in existing_amenities if a.type == amenity_enum), None)
+            if existing_record:
+                existing_record.count = count
+            else:
+                new_amenity = Amenity(type=amenity_enum, count=count, neighborhood_id=neighborhood.id)
+                self.db.add(new_amenity)
+
+        self.db.commit()
+        return fetched_counts
