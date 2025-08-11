@@ -17,7 +17,7 @@ class NeighborhoodAmenityService:
     def __init__(self, db_session: Session):
         self.db = db_session
     
-    async def process_neighborhood_search(self, search_dto: NeighborhoodSearchDTO) -> List[AmenityCountResult]:
+    async def process_neighborhood_search(self, search_dto: NeighborhoodSearchDTO) -> SearchResult:
         """Process the search DTO and fetch/store amenity data"""
         
         if not search_dto.amenities:
@@ -33,8 +33,7 @@ class NeighborhoodAmenityService:
         results = []
         for neighborhood in neighborhoods:
             try:
-                # Add delay to be respectful to API
-                if results:  # Skip delay for first request
+                if results: 
                     await asyncio.sleep(1)
                 
                 amenity_counts = await OverpassAPIService.get_amenity_counts(
@@ -45,8 +44,8 @@ class NeighborhoodAmenityService:
                 )
 
                 commute_time = self._calculate_commute_time(
-                    neighborhood.coordinates.latitude,
-                    neighborhood.coordinates.longitude,
+                    neighborhood.coordinates.lat,
+                    neighborhood.coordinates.lon,
                     search_dto.destination_neighborhood
                 )
 
@@ -69,8 +68,8 @@ class NeighborhoodAmenityService:
                     commute_time=commute_time or 0,
                     score=score,
                     coordinates={
-                        "lat": neighborhood.coordinates.latitude,
-                        "lon": neighborhood.coordinates.longitude
+                        "lat": neighborhood.coordinates.lat,
+                        "lon": neighborhood.coordinates.lon
                     }
                 )
                 
@@ -94,8 +93,8 @@ class NeighborhoodAmenityService:
         return SearchResult(
             neighborhoods=results,
             total_results=len(results),
-            search_criteria=search_dto.dict()
-        )
+            search_criteria=search_dto.model_dump()
+        ).model_dump()
     
     def _get_target_neighborhoods(self, search_dto: NeighborhoodSearchDTO) -> List[Neighborhood]:
         """Get neighborhoods based on search criteria"""
@@ -105,7 +104,6 @@ class NeighborhoodAmenityService:
         )
         
         if search_dto.preferred_neighborhoods:
-            # Filter by preferred neighborhood IDs
             query = query.filter(Neighborhood.id.in_(search_dto.preferred_neighborhoods))
         
         return query.all()
@@ -160,8 +158,8 @@ class NeighborhoodAmenityService:
             logging.warning(f"Destination neighborhood '{destination_neighborhood_name}' not found")
             return None
         
-        dest_lat = destination_neighborhood.coordinates.latitude
-        dest_lon = destination_neighborhood.coordinates.longitude
+        dest_lat = destination_neighborhood.coordinates.lat
+        dest_lon = destination_neighborhood.coordinates.lon
         
         # Haversine formula to calculate distance
         dest_lat_rad = math.radians(dest_lat)
@@ -192,12 +190,24 @@ class NeighborhoodAmenityService:
         
         total_score = 0
         max_possible_score = 0
+
+        AMENITY_WEIGHTS = {
+            AmenityTypeEnum.GROCERY: 10,      # Essential for daily life
+            AmenityTypeEnum.TRANSIT: 9,       # Critical for mobility
+            AmenityTypeEnum.HOSPITAL: 9,      # Important for health/safety
+            AmenityTypeEnum.RESTAURANT: 8,    # High social and convenience value
+            AmenityTypeEnum.SCHOOL: 7,        # Important for families
+            AmenityTypeEnum.PARK: 7,          # Quality of life and recreation
+            AmenityTypeEnum.CAFE: 6,          # Social spaces and convenience
+            AmenityTypeEnum.GYM: 6,           # Health and fitness
+            AmenityTypeEnum.LIBRARY: 5,       # Educational and community resource
+        }
         
         # Score based on requested amenities
         for amenity_enum in requested_amenities:
             amenity_key = amenity_enum.value
             count = amenity_counts.get(amenity_key, 0)
-            weight = self.AMENITY_WEIGHTS.get(amenity_enum, 5)
+            weight = AMENITY_WEIGHTS.get(amenity_enum, 5)
             
             # Score calculation based on amenity count
             if count >= 3:

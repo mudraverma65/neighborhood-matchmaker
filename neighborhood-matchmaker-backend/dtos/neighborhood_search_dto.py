@@ -4,7 +4,7 @@ from enums.amenity_type import AmenityTypeEnum
 from enums.rent_type import RentTypeEnum
 
 class NeighborhoodSearchDTO(BaseModel):
-    preferred_neighborhoods: Optional[List[int]]  # IDs or names
+    preferred_neighborhoods: Optional[List[int]] = None
     budget: int
     city: str
     max_commute_time: Optional[int]

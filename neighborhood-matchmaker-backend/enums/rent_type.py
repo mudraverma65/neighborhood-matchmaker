@@ -11,4 +11,4 @@ class RentTypeEnum(PyEnum):
 
 @app.get("/rent-types", response_model=list[str])
 async def get_rent_types():
-    return [rent_type.values for rent_type in RentTypeEnum]
+    return [rent_type.value for rent_type in RentTypeEnum]

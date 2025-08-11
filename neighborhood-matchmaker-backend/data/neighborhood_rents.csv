@@ -1,0 +1,117 @@
+neighborhood,type,avg_price
+Ahuntsic-Cartierville,studio,950
+Ahuntsic-Cartierville,One Bed,1200
+Ahuntsic-Cartierville,Two Bed,1500
+Ahuntsic-Cartierville,Three Bed,1800
+Anjou,studio,900
+Anjou,One Bed,1150
+Anjou,Two Bed,1450
+Anjou,Three Bed,1700
+Côte-des-Neiges-Notre-Dame-de-Grâce,studio,1000
+Côte-des-Neiges-Notre-Dame-de-Grâce,One Bed,1250
+Côte-des-Neiges-Notre-Dame-de-Grâce,Two Bed,1550
+Côte-des-Neiges-Notre-Dame-de-Grâce,Three Bed,1850
+Lachine,studio,850
+Lachine,One Bed,1100
+Lachine,Two Bed,1400
+Lachine,Three Bed,1650
+LaSalle,studio,870
+LaSalle,One Bed,1120
+LaSalle,Two Bed,1420
+LaSalle,Three Bed,1670
+Le Plateau-Mont-Royal,studio,1200
+Le Plateau-Mont-Royal,One Bed,1500
+Le Plateau-Mont-Royal,Two Bed,1800
+Le Plateau-Mont-Royal,Three Bed,2100
+Le Sud-Ouest,studio,1050
+Le Sud-Ouest,One Bed,1300
+Le Sud-Ouest,Two Bed,1600
+Le Sud-Ouest,Three Bed,1900
+L'Île-Bizard-Sainte-Geneviève,studio,880
+L'Île-Bizard-Sainte-Geneviève,One Bed,1130
+L'Île-Bizard-Sainte-Geneviève,Two Bed,1430
+L'Île-Bizard-Sainte-Geneviève,Three Bed,1680
+Mercier-Hochelaga-Maisonneuve,studio,950
+Mercier-Hochelaga-Maisonneuve,One Bed,1200
+Mercier-Hochelaga-Maisonneuve,Two Bed,1500
+Mercier-Hochelaga-Maisonneuve,Three Bed,1750
+Montréal-Nord,studio,900
+Montréal-Nord,One Bed,1150
+Montréal-Nord,Two Bed,1450
+Montréal-Nord,Three Bed,1700
+Outremont,studio,1300
+Outremont,One Bed,1600
+Outremont,Two Bed,1900
+Outremont,Three Bed,2200
+Pierrefonds-Roxboro,studio,870
+Pierrefonds-Roxboro,One Bed,1120
+Pierrefonds-Roxboro,Two Bed,1420
+Pierrefonds-Roxboro,Three Bed,1670
+Rivière-des-Prairies-Pointe-aux-Trembles,studio,880
+Rivière-des-Prairies-Pointe-aux-Trembles,One Bed,1130
+Rivière-des-Prairies-Pointe-aux-Trembles,Two Bed,1430
+Rivière-des-Prairies-Pointe-aux-Trembles,Three Bed,1680
+Rosemont-La Petite-Patrie,studio,1100
+Rosemont-La Petite-Patrie,One Bed,1350
+Rosemont-La Petite-Patrie,Two Bed,1650
+Rosemont-La Petite-Patrie,Three Bed,1950
+Saint-Laurent,studio,1050
+Saint-Laurent,One Bed,1300
+Saint-Laurent,Two Bed,1600
+Saint-Laurent,Three Bed,1900
+Saint-Léonard,studio,950
+Saint-Léonard,One Bed,1200
+Saint-Léonard,Two Bed,1500
+Saint-Léonard,Three Bed,1750
+Verdun,studio,1000
+Verdun,One Bed,1250
+Verdun,Two Bed,1550
+Verdun,Three Bed,1850
+Ville-Marie,studio,1400
+Ville-Marie,One Bed,1700
+Ville-Marie,Two Bed,2000
+Ville-Marie,Three Bed,2300
+Villeray-Saint-Michel-Parc-Extension,studio,970
+Villeray-Saint-Michel-Parc-Extension,One Bed,1220
+Villeray-Saint-Michel-Parc-Extension,Two Bed,1520
+Villeray-Saint-Michel-Parc-Extension,Three Bed,1770
+Old Montreal,studio,1450
+Old Montreal,One Bed,1750
+Old Montreal,Two Bed,2050
+Old Montreal,Three Bed,2350
+Downtown Montreal,studio,1500
+Downtown Montreal,One Bed,1800
+Downtown Montreal,Two Bed,2100
+Downtown Montreal,Three Bed,2400
+Westmount,studio,1600
+Westmount,One Bed,1900
+Westmount,Two Bed,2200
+Westmount,Three Bed,2500
+Mount Royal,studio,1350
+Mount Royal,One Bed,1650
+Mount Royal,Two Bed,1950
+Mount Royal,Three Bed,2250
+Griffintown,studio,1450
+Griffintown,One Bed,1750
+Griffintown,Two Bed,2050
+Griffintown,Three Bed,2350
+Mile End,studio,1250
+Mile End,One Bed,1550
+Mile End,Two Bed,1850
+Mile End,Three Bed,2150
+Little Italy,studio,1200
+Little Italy,One Bed,1500
+Little Italy,Two Bed,1800
+Little Italy,Three Bed,2100
+Chinatown,studio,1300
+Chinatown,One Bed,1600
+Chinatown,Two Bed,1900
+Chinatown,Three Bed,2200
+Gay Village,studio,1100
+Gay Village,One Bed,1400
+Gay Village,Two Bed,1700
+Gay Village,Three Bed,2000
+Latin Quarter,studio,1050
+Latin Quarter,One Bed,1350
+Latin Quarter,Two Bed,1650
+Latin Quarter,Three Bed,1950

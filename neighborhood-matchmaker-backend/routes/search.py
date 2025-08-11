@@ -6,10 +6,11 @@ from database import get_db
 from typing import List
 from services.neighborhood_amenity_service import NeighborhoodAmenityService
 import logging
+from dtos.search_result import SearchResult
 
 router = APIRouter()
 
-@router.post("/search-neighborhoods", response_model=List[AmenityCountResult])
+@router.post("/search-neighborhoods", response_model=SearchResult)
 async def search_neighborhoods(
     search_dto: NeighborhoodSearchDTO,
     db: Session = Depends(get_db)
