@@ -5,6 +5,8 @@ import { fetchNeighborhoods } from '../api/apis';
 import styles from '../styles/SearchForm.module.css';
 
 const SearchForm = ({ isOpen, onClose }) => {
+  const [errors, setErrors] = useState({});
+
   const [formData, setFormData] = useState({
     budget: '',
     city: 'Montreal',
@@ -69,7 +71,30 @@ const SearchForm = ({ isOpen, onClose }) => {
     }));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.budget || Number(formData.budget) <= 0) {
+      newErrors.budget = true;
+    }
+
+    const hasDestination = formData.destination_neighborhood.trim() !== '';
+    const hasCommute = formData.max_commute_time !== '' && Number(formData.max_commute_time) > 0;
+
+    if (hasDestination && !hasCommute) {
+      newErrors.max_commute_time = true;
+    }
+
+    if (hasCommute && !hasDestination) {
+      newErrors.destination_neighborhood = true;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = () => {
+    if (!validateForm()) return;
     console.log('Search form submitted:', formData);
     // Handle form submission here
   };
@@ -90,13 +115,12 @@ const SearchForm = ({ isOpen, onClose }) => {
             <h3 className={styles.sectionTitle}>📍 Basic Details</h3>
             <div className={styles.formGrid}>
               <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Budget (Monthly)</label>
+                <label className={styles.formLabel}>Budget (Monthly) <span className={styles.required}>*</span> </label>
                 <div className={styles.inputWrapper}>
                   <span className={styles.inputPrefix}>$</span>
                   <input
                     type="number"
-                    className={styles.formInput}
-                    placeholder="2000"
+                    className={`${styles.formInput} ${errors.budget ? styles.errorInput : ''}`}
                     value={formData.budget}
                     onChange={(e) => setFormData(prev => ({...prev, budget: e.target.value}))}
                   />
@@ -104,22 +128,24 @@ const SearchForm = ({ isOpen, onClose }) => {
               </div>
               
               <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Max Commute Time</label>
+                <label className={styles.formLabel}>
+                  Max Commute Time {errors.max_commute_time && <span className={styles.required}>*</span>}
+                </label>
                 <div className={styles.inputWrapper}>
                   <input
                     type="number"
-                    className={styles.formInput}
-                    placeholder="30"
+                    className={`${styles.formInput} ${errors.max_commute_time ? styles.errorInput : ''}`}
                     value={formData.max_commute_time}
-                    onChange={(e) => setFormData(prev => ({...prev, max_commute_time: e.target.value}))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, max_commute_time: e.target.value }))}
                   />
                   <span className={styles.inputSuffix}>min</span>
                 </div>
               </div>
+
             </div>
 
             <select
-              className={`${styles.formInput} ${styles.fullWidth}`}
+              className={`${styles.formInput} ${styles.fullWidth} ${errors.destination_neighborhood ? styles.errorInput : ''}`}
               value={formData.destination_neighborhood}
               onChange={(e) => setFormData(prev => ({ ...prev, destination_neighborhood: e.target.value }))}
             >
@@ -128,17 +154,8 @@ const SearchForm = ({ isOpen, onClose }) => {
                 <option key={n} value={n}>{n}</option>
               ))}
             </select>
-            
-            {/* <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Destination/Work Area</label>
-              <input
-                type="text"
-                className={`${styles.formInput} ${styles.fullWidth}`}
-                placeholder="e.g. Downtown, Old Port..."
-                value={formData.destination_neighborhood}
-                onChange={(e) => setFormData(prev => ({...prev, destination_neighborhood: e.target.value}))}
-              />
-            </div> */}
+
+
           </div>
 
           {/* Preferred Neighborhoods Section */}

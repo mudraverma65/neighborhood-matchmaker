@@ -111,9 +111,9 @@
   transition: all 0.3s ease;
 }
 
-.formInput::placeholder {
+/* .formInput::placeholder {
   color: rgba(44, 85, 48, 0.5);
-}
+} */
 
 .formInput:focus {
   outline: none;
@@ -422,6 +422,17 @@
 
 .neighborhoodGrid::-webkit-scrollbar-thumb:hover {
   background: #3BC4BC;
+}
+
+.required {
+  color: #FF6B6B;
+  margin-left: 3px;
+  font-weight: 700;
+}
+
+.errorInput {
+  border-color: #FF6B6B !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
 }
 
 /* Mobile responsive adjustments */
