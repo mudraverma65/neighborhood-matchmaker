@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from enum import Enum
 from enums.amenity_type import AmenityTypeEnum
 from enums.rent_type import RentTypeEnum
 
@@ -9,5 +8,6 @@ class NeighborhoodSearchDTO(BaseModel):
     budget: int
     city: str
     max_commute_time: Optional[int]
+    destination_neighborhood: Optional[str]
     amenities: Optional[List[AmenityTypeEnum]]
     rent_types: Optional[List[RentTypeEnum]]

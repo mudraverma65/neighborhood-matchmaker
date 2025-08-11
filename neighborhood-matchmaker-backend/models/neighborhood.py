@@ -1,14 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Table
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
-# Many-to-many association table
-neighborhood_amenities = Table(
-    "neighborhood_amenities",
-    Base.metadata,
-    Column("neighborhood_id", Integer, ForeignKey("neighborhoods.id")),
-    Column("amenity_id", Integer, ForeignKey("amenities.id"))
-)
 
 class Neighborhood(Base):
     __tablename__ = "neighborhoods"
@@ -18,8 +11,10 @@ class Neighborhood(Base):
     city = Column(String, nullable=False)
     coordinates_id = Column(Integer, ForeignKey("coordinates.id"), nullable=False)
     score = Column(Float)
-    avg_price = Column(Integer) ## calculated from neighborhood_rent
+    avg_price = Column(Integer)  # calculated from neighborhood_rent
 
     coordinates = relationship("Coordinates")
-    amenities = relationship("Amenity", secondary=neighborhood_amenities, back_populates="neighborhoods")
-    neighborhood_rents = relationship("NeighborhoodRent", back_populates="neighborhoods", cascade="all, delete")
+
+    amenities = relationship("Amenity", back_populates="neighborhood", cascade="all, delete-orphan")
+
+    neighborhood_rents = relationship("NeighborhoodRent", back_populates="neighborhood", cascade="all, delete")

@@ -11,4 +11,4 @@ class NeighborhoodRent(Base):
     type = Column(Enum(RentTypeEnum), nullable=False)
     avg_price = Column(Float, nullable=False)
 
-    neighborhoods = relationship("Neighborhood", back_populates="neighborhood_rents", cascade="all, delete")
+    neighborhood = relationship("Neighborhood", back_populates="neighborhood_rents")
