@@ -1,11 +1,17 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { fetchNeighborhoods } from '../api/apis';
+import { fetchNeighborhoods, searchNeighborhoods } from '../api/apis';
+// import { useSearch } from '../contexts/SearchContext';
 import styles from '../styles/SearchForm.module.css';
 
 const SearchForm = ({ isOpen, onClose }) => {
+  // const { setSearchResults, setSearchCriteria } = useSearch();
+  const router = useRouter();
+
   const [errors, setErrors] = useState({});
+  // const [results, setResults] = useState({});
 
   const [formData, setFormData] = useState({
     budget: '',
@@ -93,13 +99,19 @@ const SearchForm = ({ isOpen, onClose }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateForm()) return;
-    console.log('Search form submitted:', formData);
-    // Handle form submission here
-  };
+    try {
+      const results = await searchNeighborhoods(formData);
 
-  // if (!isOpen) return null;
+      localStorage.setItem('searchResults', JSON.stringify(results));
+      localStorage.setItem('searchCriteria', JSON.stringify(formData));
+      
+      router.push("/results");
+    } catch (err) {
+      console.error("Error searching neighborhoods:", err);
+    }
+  };
 
   return (
     <div className={styles.modalOverlay}>

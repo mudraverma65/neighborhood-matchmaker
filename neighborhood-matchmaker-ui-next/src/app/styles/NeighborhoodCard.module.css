@@ -1,0 +1,249 @@
+/* NeighborhoodCard.module.css */
+
+.neighborhoodCard {
+  background: linear-gradient(135deg, #F5F5F0 0%, rgba(245, 245, 240, 0.95) 100%);
+  border-radius: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  animation: slideIn 0.6s ease-out;
+}
+
+.neighborhoodCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  border-color: #4ECDC4;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 15px;
+  position: relative;
+}
+
+.rankBadge {
+  background: linear-gradient(135deg, #2C5530, #4A7C59);
+  color: #F5F5F0;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(44, 85, 48, 0.3);
+}
+
+.rankText {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.scoreCircle {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(var(--score-color) 0deg, var(--score-color) calc(var(--score, 75) * 3.6deg), rgba(44, 85, 48, 0.1) calc(var(--score, 75) * 3.6deg));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.scoreCircle::before {
+  content: '';
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background: #F5F5F0;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.scoreValue {
+  position: relative;
+  z-index: 2;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--score-color);
+  line-height: 1;
+}
+
+.scorePercent {
+  position: relative;
+  z-index: 2;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--score-color);
+  margin-top: -2px;
+}
+
+.cardContent {
+  padding: 0 20px 20px;
+}
+
+.neighborhoodName {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #2C5530;
+  margin: 0 0 15px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.commuteInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: rgba(78, 205, 196, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(78, 205, 196, 0.2);
+}
+
+.commuteIcon {
+  font-size: 1.1rem;
+}
+
+.commuteText {
+  color: #4ECDC4;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.amenityItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(44, 85, 48, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(44, 85, 48, 0.1);
+  transition: all 0.3s ease;
+}
+
+.amenityItem:hover {
+  background: rgba(78, 205, 196, 0.1);
+  border-color: rgba(78, 205, 196, 0.3);
+  transform: scale(1.02);
+}
+
+.amenityIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.amenityDetails {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.amenityCount {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #2C5530;
+  line-height: 1;
+}
+
+.amenityType {
+  font-size: 0.75rem;
+  color: rgba(44, 85, 48, 0.7);
+  font-weight: 600;
+  text-transform: capitalize;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.totalSection {
+  border-top: 1px solid rgba(44, 85, 48, 0.1);
+  padding-top: 15px;
+}
+
+.totalAmenities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(196, 214, 58, 0.1), rgba(78, 205, 196, 0.1));
+  border-radius: 12px;
+  border: 1px solid rgba(196, 214, 58, 0.2);
+}
+
+.totalIcon {
+  font-size: 1.1rem;
+}
+
+.totalText {
+  color: #2C5530;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .neighborhoodCard {
+    margin: 0 10px;
+  }
+  
+  .cardHeader {
+    padding: 15px 15px 10px;
+  }
+  
+  .cardContent {
+    padding: 0 15px 15px;
+  }
+  
+  .scoreCircle {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .scoreCircle::before {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .scoreValue {
+    font-size: 0.95rem;
+  }
+  
+  .neighborhoodName {
+    font-size: 1.1rem;
+  }
+  
+  .amenitiesGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .amenityItem {
+    padding: 10px;
+  }
+}

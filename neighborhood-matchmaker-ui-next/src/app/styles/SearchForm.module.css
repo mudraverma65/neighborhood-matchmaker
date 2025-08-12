@@ -111,10 +111,6 @@
   transition: all 0.3s ease;
 }
 
-/* .formInput::placeholder {
-  color: rgba(44, 85, 48, 0.5);
-} */
-
 .formInput:focus {
   outline: none;
   border-color: #4ECDC4;

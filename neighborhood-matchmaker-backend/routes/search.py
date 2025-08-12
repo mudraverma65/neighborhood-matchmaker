@@ -29,12 +29,3 @@ async def search_neighborhoods(
     except Exception as e:
         logging.error(f"Error in neighborhood search: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
-
-
-# {
-#   "preferred_neighborhoods": [1, 2, 3],  // Optional
-#   "budget": 2000,
-#   "city": "Montreal", 
-#   "amenities": ["RESTAURANT", "HOSPITAL", "BANK"],
-#   "rent_types": ["APARTMENT"]
-# }

@@ -19,18 +19,15 @@ class NeighborhoodAmenityService:
         self.db = db_session
     
     async def process_neighborhood_search(self, search_dto: NeighborhoodSearchDTO) -> SearchResult:
-        """Process the search DTO and fetch/store amenity data"""
         
         if not search_dto.amenities:
-            return []
+            return self._get_all_amenities()
         
-        # Get neighborhoods based on preferences
         neighborhoods = self._get_target_neighborhoods(search_dto)
         
-        if not neighborhoods:
-            return []
+        # if not neighborhoods:
+        #     return []
         
-        # Fetch amenity counts for each neighborhood
         results = []
         for neighborhood in neighborhoods:
             try:
@@ -193,8 +190,7 @@ class NeighborhoodAmenityService:
             AmenityTypeEnum.GYM: 6,
             AmenityTypeEnum.LIBRARY: 5,
         }
-        
-        # Score based on requested amenities
+
         for amenity_enum in requested_amenities:
             amenity_key = amenity_enum.value
             count = amenity_counts.get(amenity_key, 0)
@@ -281,3 +277,6 @@ class NeighborhoodAmenityService:
 
         self.db.commit()
         return fetched_counts
+    
+    def _get_all_amenities(self) -> list[AmenityTypeEnum]:
+        return [amenity for amenity in AmenityTypeEnum]

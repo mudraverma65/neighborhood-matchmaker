@@ -18,7 +18,10 @@ export async function fetchAmenities(): Promise<Amenity[]> {
 
 export async function fetchNeighborhoods(): Promise<Neighborhood[]> {
   const res = await fetch('/neighborhoods');
-  if (!res.ok) throw new Error("Failed to fetch neighborhoods");
+  if (!res.ok) {
+    console.log(res)
+    // throw new Error("Failed to fetch neighborhoods");
+  }
   const data: Neighborhood[] = await res.json();
   return data;
 }
@@ -27,10 +30,11 @@ export async function fetchNeighborhoods(): Promise<Neighborhood[]> {
 export async function searchNeighborhoods(
   searchDto: NeighborhoodSearchDTO
 ): Promise<SearchResult> {
-  const res = await fetch(`${BASE_URL}/search-neighborhoods`, {
+  const res = await fetch(`/search-neighborhoods`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "access-control-allow-origin": "*"
     },
     body: JSON.stringify(searchDto),
   });

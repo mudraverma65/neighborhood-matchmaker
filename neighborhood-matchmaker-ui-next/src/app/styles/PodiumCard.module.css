@@ -1,0 +1,264 @@
+/* PodiumCard.module.css */
+
+.podiumCard {
+  position: relative;
+  background: linear-gradient(135deg, #F5F5F0 0%, rgba(245, 245, 240, 0.95) 100%);
+  border-radius: 20px 20px 8px 8px;
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  animation: podiumRise 0.8s ease-out;
+  overflow: hidden;
+}
+
+.podiumCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Podium Heights */
+.first {
+  min-height: 420px;
+  border-color: #C4D63A;
+  box-shadow: 0 20px 40px rgba(196, 214, 58, 0.3);
+}
+
+.second {
+  min-height: 380px;
+  border-color: #B8D4E3;
+  box-shadow: 0 20px 40px rgba(184, 212, 227, 0.3);
+}
+
+.third {
+  min-height: 340px;
+  border-color: #F4A6CD;
+  box-shadow: 0 20px 40px rgba(244, 166, 205, 0.3);
+}
+
+.medal {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 3px solid;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.first .medal {
+  border-color: #C4D63A;
+  background: linear-gradient(135deg, #C4D63A, #A8C12A);
+}
+
+.second .medal {
+  border-color: #B8D4E3;
+  background: linear-gradient(135deg, #B8D4E3, #9BC5D4);
+}
+
+.third .medal {
+  border-color: #F4A6CD;
+  background: linear-gradient(135deg, #F4A6CD, #E89BC4);
+}
+
+.medalEmoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.rankNumber {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #2C5530;
+  margin-top: 2px;
+}
+
+.cardContent {
+  padding: 35px 20px 20px;
+  text-align: center;
+}
+
+.neighborhoodName {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #2C5530;
+  margin: 0 0 15px;
+  line-height: 1.2;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 12px;
+  background: rgba(44, 85, 48, 0.1);
+  border-radius: 12px;
+}
+
+.scoreLabel {
+  font-size: 0.8rem;
+  color: rgba(44, 85, 48, 0.7);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.scoreValue {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2C5530;
+  line-height: 1;
+}
+
+.commuteTime {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 20px;
+  color: #4ECDC4;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.commuteIcon {
+  font-size: 1rem;
+}
+
+.amenitiesSection {
+  margin-bottom: 15px;
+}
+
+.amenitiesTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2C5530;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.amenitiesList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.amenityItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(78, 205, 196, 0.1);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.amenityIcon {
+  font-size: 1rem;
+}
+
+.amenityText {
+  color: #2C5530;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.totalAmenities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  background: rgba(44, 85, 48, 0.1);
+  border-radius: 10px;
+  font-weight: 700;
+  color: #2C5530;
+  font-size: 0.9rem;
+}
+
+.totalIcon {
+  font-size: 1rem;
+}
+
+.podiumBase {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(135deg, rgba(44, 85, 48, 0.8), rgba(44, 85, 48, 0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 17px 17px;
+}
+
+.first .podiumBase {
+  background: linear-gradient(135deg, #C4D63A, #A8C12A);
+}
+
+.second .podiumBase {
+  background: linear-gradient(135deg, #B8D4E3, #9BC5D4);
+}
+
+.third .podiumBase {
+  background: linear-gradient(135deg, #F4A6CD, #E89BC4);
+}
+
+.positionLabel {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes podiumRise {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .podiumCard {
+    min-height: auto !important;
+  }
+  
+  .cardContent {
+    padding: 30px 15px 15px;
+  }
+  
+  .neighborhoodName {
+    font-size: 1.2rem;
+  }
+  
+  .scoreValue {
+    font-size: 1.5rem;
+  }
+  
+  .medal {
+    width: 50px;
+    height: 50px;
+    top: -12px;
+  }
+  
+  .medalEmoji {
+    font-size: 1.2rem;
+  }
+}
