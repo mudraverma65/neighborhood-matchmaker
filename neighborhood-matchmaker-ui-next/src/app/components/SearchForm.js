@@ -3,15 +3,12 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { fetchNeighborhoods, searchNeighborhoods } from '../api/apis';
-// import { useSearch } from '../contexts/SearchContext';
 import styles from '../styles/SearchForm.module.css';
 
 const SearchForm = ({ isOpen, onClose }) => {
-  // const { setSearchResults, setSearchCriteria } = useSearch();
   const router = useRouter();
 
   const [errors, setErrors] = useState({});
-  // const [results, setResults] = useState({});
 
   const [formData, setFormData] = useState({
     budget: '',
