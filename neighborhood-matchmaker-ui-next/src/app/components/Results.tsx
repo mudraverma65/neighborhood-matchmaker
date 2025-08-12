@@ -106,7 +106,7 @@ const Results = () => {
           ← Back to Search
         </button>
         <div className={styles.headerContent}>
-          <h1 className={styles.title}>Your {searchResults.total_results} Perfect Montreal Neighborhoods</h1>
+          <h1 className={styles.title}>Your {searchResults.total_results} Ideal Montreal Neighborhoods</h1>
         </div>
       </div>
 

@@ -9,6 +9,7 @@ const SearchForm = ({ isOpen, onClose }) => {
   const router = useRouter();
 
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false); // New loading state
 
   const [formData, setFormData] = useState({
     budget: '',
@@ -98,6 +99,9 @@ const SearchForm = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
+    
+    setIsLoading(true); // Start loading
+    
     try {
       const results = await searchNeighborhoods(formData);
 
@@ -107,6 +111,7 @@ const SearchForm = ({ isOpen, onClose }) => {
       router.push("/results");
     } catch (err) {
       console.error("Error searching neighborhoods:", err);
+      setIsLoading(false); // Stop loading on error
     }
   };
 
@@ -115,7 +120,7 @@ const SearchForm = ({ isOpen, onClose }) => {
       <div className={styles.modalContainer}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>Search an Ideal Neighborhood</h2>
-          <button className={styles.closeButton} onClick={onClose}>×</button>
+          <button className={styles.closeButton} onClick={onClose} disabled={isLoading}>×</button>
         </div>
         
         <div className={styles.searchForm}>
@@ -132,6 +137,7 @@ const SearchForm = ({ isOpen, onClose }) => {
                     className={`${styles.formInput} ${errors.budget ? styles.errorInput : ''}`}
                     value={formData.budget}
                     onChange={(e) => setFormData(prev => ({...prev, budget: e.target.value}))}
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -146,6 +152,7 @@ const SearchForm = ({ isOpen, onClose }) => {
                     className={`${styles.formInput} ${errors.max_commute_time ? styles.errorInput : ''}`}
                     value={formData.max_commute_time}
                     onChange={(e) => setFormData(prev => ({ ...prev, max_commute_time: e.target.value }))}
+                    disabled={isLoading}
                   />
                   <span className={styles.inputSuffix}>min</span>
                 </div>
@@ -157,13 +164,13 @@ const SearchForm = ({ isOpen, onClose }) => {
               className={`${styles.formInput} ${styles.fullWidth} ${errors.destination_neighborhood ? styles.errorInput : ''}`}
               value={formData.destination_neighborhood}
               onChange={(e) => setFormData(prev => ({ ...prev, destination_neighborhood: e.target.value }))}
+              disabled={isLoading}
             >
               <option value="">Select destination</option>
               {neighborhoods.map((n) => (
                 <option key={n} value={n}>{n}</option>
               ))}
             </select>
-
 
           </div>
 
@@ -177,8 +184,8 @@ const SearchForm = ({ isOpen, onClose }) => {
               {neighborhoods.map((neighborhood) => (
                 <div
                   key={neighborhood}
-                  className={`${styles.neighborhoodCard} ${formData.preferred_neighborhoods.includes(neighborhood) ? styles.selected : ''}`}
-                  onClick={() => handleNeighborhoodToggle(neighborhood)}
+                  className={`${styles.neighborhoodCard} ${formData.preferred_neighborhoods.includes(neighborhood) ? styles.selected : ''} ${isLoading ? styles.disabled : ''}`}
+                  onClick={() => !isLoading && handleNeighborhoodToggle(neighborhood)}
                 >
                   <div className={styles.neighborhoodName}>{neighborhood}</div>
                   <div className={styles.neighborhoodCheck}>✓</div>
@@ -194,9 +201,9 @@ const SearchForm = ({ isOpen, onClose }) => {
               {amenityOptions.map((amenity) => (
                 <div
                   key={amenity.type}
-                  className={`${styles.optionCard} ${formData.amenities.includes(amenity.type) ? styles.selected : ''}`}
+                  className={`${styles.optionCard} ${formData.amenities.includes(amenity.type) ? styles.selected : ''} ${isLoading ? styles.disabled : ''}`}
                   style={{'--card-color': amenity.color}}
-                  onClick={() => handleAmenityToggle(amenity.type)}
+                  onClick={() => !isLoading && handleAmenityToggle(amenity.type)}
                 >
                   <div className={styles.cardIcon}>{amenity.icon}</div>
                   <div className={styles.cardName}>{amenity.name}</div>
@@ -213,9 +220,9 @@ const SearchForm = ({ isOpen, onClose }) => {
               {rentTypeOptions.map((rentType) => (
                 <div
                   key={rentType.type}
-                  className={`${styles.optionCard} ${formData.rent_types.includes(rentType.type) ? styles.selected : ''}`}
+                  className={`${styles.optionCard} ${formData.rent_types.includes(rentType.type) ? styles.selected : ''} ${isLoading ? styles.disabled : ''}`}
                   style={{'--card-color': rentType.color}}
-                  onClick={() => handleRentTypeToggle(rentType.type)}
+                  onClick={() => !isLoading && handleRentTypeToggle(rentType.type)}
                 >
                   <div className={styles.cardIcon}>{rentType.icon}</div>
                   <div className={styles.cardName}>{rentType.name}</div>
@@ -227,16 +234,46 @@ const SearchForm = ({ isOpen, onClose }) => {
 
           {/* Submit Button */}
           <div className={styles.formActions}>
-            <button type="button" className={styles.cancelButton} onClick={onClose}>
+            <button 
+              type="button" 
+              className={styles.cancelButton} 
+              onClick={onClose}
+              disabled={isLoading}
+            >
               Cancel
             </button>
-            <button type="button" className={styles.submitButton} onClick={handleSubmit}>
-              <span className={styles.buttonIcon}>🔍</span>
-              Find a Neighborhood
-              <span className={styles.buttonSparkle}>✨</span>
+            <button 
+              type="button" 
+              className={`${styles.submitButton} ${isLoading ? styles.loading : ''}`} 
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <div className={styles.spinner}></div>
+                  Searching...
+                </>
+              ) : (
+                <>
+                  <span className={styles.buttonIcon}>🔍</span>
+                  Find a Neighborhood
+                  <span className={styles.buttonSparkle}>✨</span>
+                </>
+              )}
             </button>
           </div>
         </div>
+
+        {/* Loading Overlay */}
+        {isLoading && (
+          <div className={styles.loadingOverlay}>
+            <div className={styles.loadingContent}>
+              <div className={styles.loadingSpinner}></div>
+              <h3 className={styles.loadingTitle}>Finding Your Perfect Neighborhood</h3>
+              <p className={styles.loadingText}>Analyzing Montreal neighborhoods based on your preferences...</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
