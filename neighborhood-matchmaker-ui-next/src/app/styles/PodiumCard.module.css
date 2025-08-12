@@ -9,6 +9,9 @@
   transition: all 0.3s ease;
   animation: podiumRise 0.8s ease-out;
   overflow: hidden;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
 }
 
 .podiumCard:hover {
@@ -16,23 +19,28 @@
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
 }
 
-/* Podium Heights */
+/* Podium Heights - Adjusted to fit content properly */
 .first {
-  min-height: 420px;
+  min-height: 480px;
   border-color: #C4D63A;
   box-shadow: 0 20px 40px rgba(196, 214, 58, 0.3);
+  order: 2; /* Center position */
 }
 
 .second {
-  min-height: 380px;
+  min-height: 440px;
   border-color: #B8D4E3;
   box-shadow: 0 20px 40px rgba(184, 212, 227, 0.3);
+  order: 1; /* Left position */
+  margin-top: 40px; /* Lower than first place */
 }
 
 .third {
-  min-height: 340px;
+  min-height: 400px;
   border-color: #F4A6CD;
   box-shadow: 0 20px 40px rgba(244, 166, 205, 0.3);
+  order: 3; /* Right position */
+  margin-top: 80px; /* Lower than second place */
 }
 
 .medal {
@@ -81,8 +89,11 @@
 }
 
 .cardContent {
-  padding: 35px 20px 20px;
+  padding: 35px 20px 60px; /* Increased bottom padding to account for base */
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 40px); /* Account for podium base */
 }
 
 .neighborhoodName {
@@ -135,6 +146,7 @@
 
 .amenitiesSection {
   margin-bottom: 15px;
+  flex-grow: 1;
 }
 
 .amenitiesTitle {
@@ -178,12 +190,14 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px;
+  padding: 8px;
   background: rgba(44, 85, 48, 0.1);
   border-radius: 10px;
   font-weight: 700;
   color: #2C5530;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  margin-top: auto; /* Push to bottom */
+  margin-bottom: 10px;
 }
 
 .totalIcon {
@@ -222,6 +236,16 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Container for podium layout */
+.podiumContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
 /* Animations */
 @keyframes podiumRise {
   from {
@@ -238,10 +262,20 @@
 @media (max-width: 768px) {
   .podiumCard {
     min-height: auto !important;
+    max-width: none;
+    width: 100%;
+  }
+  
+  .second {
+    margin-top: 20px;
+  }
+  
+  .third {
+    margin-top: 40px;
   }
   
   .cardContent {
-    padding: 30px 15px 15px;
+    padding: 30px 15px 50px;
   }
   
   .neighborhoodName {
@@ -260,5 +294,18 @@
   
   .medalEmoji {
     font-size: 1.2rem;
+  }
+  
+  .podiumContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .first,
+  .second,
+  .third {
+    order: unset;
+    margin-top: 0;
   }
 }

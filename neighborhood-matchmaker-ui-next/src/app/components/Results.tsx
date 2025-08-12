@@ -106,10 +106,7 @@ const Results = () => {
           ← Back to Search
         </button>
         <div className={styles.headerContent}>
-          <h1 className={styles.title}>Your Perfect Montreal Neighborhoods</h1>
-          <p className={styles.subtitle}>
-            Found {searchResults.total_results} neighborhoods matching your criteria
-          </p>
+          <h1 className={styles.title}>Your {searchResults.total_results} Perfect Montreal Neighborhoods</h1>
         </div>
       </div>
 

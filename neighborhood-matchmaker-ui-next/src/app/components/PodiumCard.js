@@ -19,6 +19,16 @@ const PodiumCard = ({ neighborhood, position, rank }) => {
     }
   };
 
+  const getPodiumOrder = (position) => {
+    // Proper podium order: 2nd left, 1st center, 3rd right
+    switch (position) {
+      case 1: return 'center'; // First place in center
+      case 2: return 'left';   // Second place on left
+      case 3: return 'right';  // Third place on right
+      default: return 'center';
+    }
+  };
+
   const getTopAmenities = () => {
     return Object.entries(neighborhood.amenity_counts)
       .sort(([,a], [,b]) => b - a)
@@ -41,7 +51,7 @@ const PodiumCard = ({ neighborhood, position, rank }) => {
   };
 
   return (
-    <div className={`${styles.podiumCard} ${styles[getPodiumHeight(position)]}`}>
+    <div className={`${styles.podiumCard} ${styles[getPodiumHeight(position)]} ${styles[getPodiumOrder(position)]}`}>
       <div className={styles.medal}>
         <span className={styles.medalEmoji}>{getMedalEmoji(position)}</span>
         <span className={styles.rankNumber}>{rank}</span>

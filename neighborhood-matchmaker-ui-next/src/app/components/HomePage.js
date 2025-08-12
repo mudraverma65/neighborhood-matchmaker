@@ -6,7 +6,6 @@ import HotSpot from './Hotspot';
 import SearchForm from './SearchForm';
 
 const HomePage = () => {
-  const [hoveredSticker, setHoveredSticker] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false); // <-- new state
 
   const handleSearchClick = () => {
@@ -20,39 +19,23 @@ const HomePage = () => {
   const hotspots = [
     {
       id: 1,
-      name: "Old Montreal",
-      image: "https://images.unsplash.com/photo-1549340748-6d9ac911ad70?w=400&h=300&fit=crop&crop=center",
-      color: "#B8D4E3",
-      position: "top-left",
-      shape: "star",
-      size: "large"
+      image: "/media/notre-dame.png",
+      position: "top-left"
     },
     {
       id: 2,
-      name: "Plateau",
-      image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=400&h=300&fit=crop&crop=center",
-      color: "#F4A6CD",
-      position: "top-right",
-      shape: "cloud",
-      size: "medium"
+      image: "/media/china-town.png", 
+      position: "top-right"
     },
     {
       id: 3,
-      name: "Downtown",
-      image: "https://images.unsplash.com/photo-1517935706615-2717063c2225?w=400&h=300&fit=crop&crop=center",
-      color: "#FF6B6B",
-      position: "bottom-left",
-      shape: "thought",
-      size: "small"
+      image: "/media/garden.png", 
+      position: "bottom-left"
     },
     {
       id: 4,
-      name: "Mile End",
-      image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=300&fit=crop&crop=center",
-      color: "#4ECDC4",
-      position: "bottom-right",
-      shape: "star",
-      size: "medium"
+      image: "/media/biosphere.png",
+      position: "bottom-right"
     }
   ];
 
@@ -73,9 +56,6 @@ const HomePage = () => {
           <HotSpot
             key={hotspot.id}
             hotspot={hotspot}
-            isHovered={hoveredSticker === hotspot.id}
-            onHover={() => setHoveredSticker(hotspot.id)}
-            onLeave={() => setHoveredSticker(null)}
           />
         ))}
 

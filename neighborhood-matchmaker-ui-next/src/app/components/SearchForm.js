@@ -114,7 +114,7 @@ const SearchForm = ({ isOpen, onClose }) => {
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Find Your Perfect Montreal Neighborhood</h2>
+          <h2 className={styles.modalTitle}>Search an Ideal Neighborhood</h2>
           <button className={styles.closeButton} onClick={onClose}>×</button>
         </div>
         
@@ -169,9 +169,9 @@ const SearchForm = ({ isOpen, onClose }) => {
 
           {/* Preferred Neighborhoods Section */}
           <div className={styles.formSection}>
-            <h3 className={styles.sectionTitle}>🏘️ Preferred Neighborhoods</h3>
+            <h3 className={styles.sectionTitle}>🏘️ Preferrences</h3>
             <p className={styles.sectionDescription}>
-              Select neighborhoods youd like to prioritize (optional)
+              Select neighborhoods to prioritize (optional)
             </p>
             <div className={styles.neighborhoodGrid}>
               {neighborhoods.map((neighborhood) => (
@@ -189,7 +189,7 @@ const SearchForm = ({ isOpen, onClose }) => {
 
           {/* Amenities Section */}
           <div className={styles.formSection}>
-            <h3 className={styles.sectionTitle}>🎯 What Important to You?</h3>
+            <h3 className={styles.sectionTitle}>🎯 Amenities</h3>
             <div className={styles.cardGrid}>
               {amenityOptions.map((amenity) => (
                 <div
@@ -208,7 +208,7 @@ const SearchForm = ({ isOpen, onClose }) => {
 
           {/* Rent Type Section */}
           <div className={styles.formSection}>
-            <h3 className={styles.sectionTitle}>🏠 What Size Place?</h3>
+            <h3 className={styles.sectionTitle}>🏠 Size</h3>
             <div className={styles.cardGrid}>
               {rentTypeOptions.map((rentType) => (
                 <div
@@ -232,7 +232,7 @@ const SearchForm = ({ isOpen, onClose }) => {
             </button>
             <button type="button" className={styles.submitButton} onClick={handleSubmit}>
               <span className={styles.buttonIcon}>🔍</span>
-              Find My Neighborhood
+              Find a Neighborhood
               <span className={styles.buttonSparkle}>✨</span>
             </button>
           </div>
