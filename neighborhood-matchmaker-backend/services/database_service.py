@@ -6,7 +6,6 @@ import logging
 
 
 class DatabaseService:
-    """Clean database operations service"""
     
     def __init__(self, db_session: Session):
         self.db = db_session
@@ -14,7 +13,6 @@ class DatabaseService:
     def get_neighborhoods_with_coordinates(self, city: str) -> List[Neighborhood]:
         """Get neighborhoods with coordinates using optimized query"""
         try:
-            # Use joinedload to prevent N+1 query problem
             neighborhoods = self.db.query(Neighborhood).options(
                 joinedload(Neighborhood.coordinates)
             ).join(Coordinates).filter(
