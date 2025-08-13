@@ -7,7 +7,7 @@ export type Amenity = string;
 export type Neighborhood = string;
 
 // Backend base URL
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function fetchAmenities(): Promise<Amenity[]> {
   const res = await fetch(`${BASE_URL}/amenities`);
