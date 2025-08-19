@@ -3,6 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+# Local
+# DATABASE_URL = "postgresql+psycopg2://dell:@localhost:5432/neighborhood_matchmaker"
+
 DATABASE_URL = os.getenv("DATABASE_URL")  # read from environment
 
 # Optional: make sure psycopg2 works with Render's URL
