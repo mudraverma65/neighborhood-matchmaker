@@ -4,8 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from scripts.seed_neighborhoods import seed_neighborhoods_from_csv
 from scripts.seed_neighborhood_rents import seed_neighborhood_rents
 from contextlib import asynccontextmanager
-from database import Base, engine
-from sqlalchemy import inspect
+from database import engine
 import models
 
 app = FastAPI()
@@ -17,16 +16,8 @@ app.include_router(search.router)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("DB in use:", engine.url.render_as_string(hide_password=True))
-    
-    inspector = inspect(engine)
-    print("Tables before create_all():", inspector.get_table_names())
-    
-    Base.metadata.create_all(bind=engine)
-    print("Tables in metadata:", list(Base.metadata.tables.keys()))
-    
-    inspector = inspect(engine)
-    print("Tables after create_all():", inspector.get_table_names())
 
+    # only seed data here
     seed_neighborhoods_from_csv()
     seed_neighborhood_rents()
 
