@@ -3,6 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import inspect
+from scripts.seed_neighborhoods import seed_neighborhoods_from_csv
+from scripts.seed_neighborhood_rents import seed_neighborhood_rents
 
 # DATABASE_URL for local or Render
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -26,6 +28,9 @@ def init_db():
     
     inspector = inspect(engine)
     print("Tables after create_all():", inspector.get_table_names())
+
+    seed_neighborhoods_from_csv()
+    seed_neighborhood_rents()
 
 # run immediately when module loads
 init_db()
