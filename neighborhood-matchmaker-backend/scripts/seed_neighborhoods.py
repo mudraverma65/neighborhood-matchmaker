@@ -9,6 +9,12 @@ def seed_neighborhoods_from_csv():
     df = pd.read_csv(CSV_PATH)
 
     db = SessionLocal()
+
+    if db.query(Neighborhood).first():
+        print("Neighborhoods already seeded, skipping...")
+        db.close()
+        return
+    
     try:
         for _, row in df.iterrows():
             # Create coordinates entry

@@ -9,6 +9,10 @@ CSV_PATH = os.path.join("data", "neighborhood_rents.csv")
 
 def seed_neighborhood_rents():
     db: Session = SessionLocal()
+    if db.query(Neighborhood).first():
+        print("Neighborhoods already seeded, skipping...")
+        db.close()
+        return
     try:
         if not os.path.exists(CSV_PATH):
             raise FileNotFoundError(f"CSV file not found at {CSV_PATH}")
